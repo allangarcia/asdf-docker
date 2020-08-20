@@ -1,10 +1,11 @@
 FROM archlinux
 RUN pacman -Syu --noconfirm
-RUN pacman -S git vim --noconfirm
+RUN pacman -S git vim zsh --noconfirm
 RUN git clone https://github.com/asdf-vm/asdf.git ~/.asdf && \
     cd ~/.asdf && \
     git checkout -d "$(git describe --abbrev=0 --tags)" && \
-    echo '. $HOME/.asdf/asdf.sh' > ~/.bashrc && \
-    echo '. $HOME/.asdf/completions/asdf.bash' >> ~/.bashrc
+    sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" && \
+    sed -i 's/plugins=\(.*\)/plugins=\(git asdf archlinux\)/' ~/.zshrc
 WORKDIR /root
-SHELL ["/bin/bash", "-c"]
+SHELL [ "/bin/zsh", "-c" ]
+ENTRYPOINT [ "/bin/zsh", "-l" ]
