@@ -23,4 +23,4 @@ $ docker run -it -v ~/Developer:/Developer allangarcia/asdf-rails
 
 You'll generally use this together with -p 3000:3000 or any other port you want to export
 
-I personally use also with --rm to remove the container when I leave.
+I personally also use with --rm to remove the container after I use.
