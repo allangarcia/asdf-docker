@@ -1,6 +1,6 @@
 FROM archlinux
 RUN pacman -Syu --noconfirm
-RUN pacman -S git vim zsh --noconfirm
+RUN pacman -S base-devel zsh git vim --noconfirm
 RUN git clone https://github.com/asdf-vm/asdf.git ~/.asdf && \
     cd ~/.asdf && \
     git checkout -d "$(git describe --abbrev=0 --tags)" && \
