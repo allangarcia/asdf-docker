@@ -2,6 +2,5 @@ FROM allangarcia/asdf-base
 RUN source ~/.zshrc && \
     asdf plugin-add nodejs https://github.com/asdf-vm/asdf-nodejs.git && \
     bash -c '${ASDF_DATA_DIR:=$HOME/.asdf}/plugins/nodejs/bin/import-release-team-keyring' && \
-    asdf install nodejs 14.8.0 && \
-    asdf global nodejs 14.8.0
+    asdf install nodejs 14.8.0 && asdf global nodejs 14.8.0
 WORKDIR /Developer
