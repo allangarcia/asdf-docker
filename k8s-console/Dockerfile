@@ -1,5 +1,7 @@
 FROM debian:unstable
 WORKDIR /root
+# default shell env
+SHELL [ "/bin/bash", "-c" ]
 # Update the system and install basic packages
 RUN apt update -y && \
     apt upgrade -y && \
@@ -42,6 +44,5 @@ RUN curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/s
 # kubectl command completion
 RUN mkdir -p /etc/bash_completion.d && \
     kubectl completion bash >/etc/bash_completion.d/kubectl
-# default shell env
-SHELL [ "/bin/bash", "-c" ]
+# set entrypoint for docker run -i
 ENTRYPOINT [ "/bin/bash", "-l" ]
