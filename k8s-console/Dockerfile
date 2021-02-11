@@ -24,13 +24,13 @@ RUN git clone https://github.com/asdf-vm/asdf.git ~/.asdf && \
 RUN apt install build-essential -y && \
     apt install zlib1g-dev -y && \
     apt install libssl-dev -y && \
-    apt install libreadline-dev && \
-    apt install libbz2-dev && \
-    apt install libncursesw5-dev && \
-    apt install libgdbm-dev && \
-    apt install liblzma-dev && \
-    apt install libsqlite3-dev && \
-    apt install uuid-dev
+    apt install libreadline-dev -y && \
+    apt install libbz2-dev -y && \
+    apt install libncursesw5-dev -y && \
+    apt install libgdbm-dev -y && \
+    apt install liblzma-dev -y && \
+    apt install libsqlite3-dev -y && \
+    apt install uuid-dev -y
 # Install python
 RUN asdf install python 3.9.1 && \
     asdf global python 3.9.1 && \
