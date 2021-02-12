@@ -28,7 +28,8 @@ RUN apt install build-essential -y && \
     apt install uuid-dev -y
 # Install python
 ENV PATH=/root/.asdf/bin:$PATH
-RUN asdf install python 3.9.1 && \
+RUN asdf plugin add python && \
+    asdf install python 3.9.1 && \
     asdf global python 3.9.1 && \
     asdf reshim python 3.9.1
 # kubectl download, install, and clean
