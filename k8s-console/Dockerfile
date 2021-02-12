@@ -32,8 +32,10 @@ ENV PATH=/root/.asdf/bin:$PATH
 RUN asdf plugin add python && \
     asdf install python 3.9.1 && \
     asdf global python 3.9.1 && \
-    asdf reshim python 3.9.1 && \
-    pip install --upgrade pip && \
+    asdf reshim python 3.9.1
+# Install additional pip packages
+ENV PATH=/root/.asdf/shims/:$PATH
+RUN pip install --upgrade pip && \
     pip install wheel
 # Install kubespray.io and their dependencies
 RUN git clone https://github.com/kubernetes-sigs/kubespray.git && \
