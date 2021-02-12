@@ -1,7 +1,5 @@
 FROM debian:unstable
 WORKDIR /root
-# default shell env
-SHELL [ "/bin/bash", "-c" ]
 # Update the system and install basic packages
 RUN apt update -y && \
     apt upgrade -y && \
@@ -10,16 +8,13 @@ RUN apt update -y && \
     apt install vim -y && \
     apt install curl -y
 # Enable colors on ls and some default aliases
-RUN sed -i '9,13s/^# //' /root/.bashrc && \
-    sed -i '16,18s/^# //' /root/.bashrc && \
-    sed -i 's/dircolors/dircolors -b/' /root/.bashrc
+RUN sed -i -e '9,13s/^# //' -e '16,18s/^# //' -e 's/dircolors/dircolors -b/' /root/.bashrc
 # Install asdf
 RUN git clone https://github.com/asdf-vm/asdf.git ~/.asdf && \
     cd ~/.asdf && \
     git checkout -d "$(git describe --abbrev=0 --tags)" && \
     cd && \
-    sed -i '$ a # Add support to asdf\n. $HOME/.asdf/asdf.sh\n. $HOME/.asdf/completions/asdf.bash' .bashrc && \
-    source .bashrc
+    sed -i '$ a # Add support to asdf\n. $HOME/.asdf/asdf.sh\n. $HOME/.asdf/completions/asdf.bash' .bashrc
 # Install build dependencies
 RUN apt install build-essential -y && \
     apt install zlib1g-dev -y && \
@@ -32,6 +27,7 @@ RUN apt install build-essential -y && \
     apt install libsqlite3-dev -y && \
     apt install uuid-dev -y
 # Install python
+ENV PATH=/root/.asdf/bin:$PATH
 RUN asdf install python 3.9.1 && \
     asdf global python 3.9.1 && \
     asdf reshim python 3.9.1
@@ -44,5 +40,7 @@ RUN curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/s
 # kubectl command completion
 RUN mkdir -p /etc/bash_completion.d && \
     kubectl completion bash >/etc/bash_completion.d/kubectl
+# default shell env
+SHELL [ "/bin/bash", "-c" ]
 # set entrypoint for docker run -i
 ENTRYPOINT [ "/bin/bash", "-l" ]
