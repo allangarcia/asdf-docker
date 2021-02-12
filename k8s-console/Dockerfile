@@ -15,8 +15,9 @@ RUN git clone https://github.com/asdf-vm/asdf.git ~/.asdf && \
     git checkout -d "$(git describe --abbrev=0 --tags)" && \
     cd && \
     sed -i '$ a # Add support to asdf\n. $HOME/.asdf/asdf.sh\n. $HOME/.asdf/completions/asdf.bash' .bashrc
-# Install build dependencies
+# Install python's build dependencies
 RUN apt install build-essential -y && \
+    apt install libffi-dev -y && \
     apt install zlib1g-dev -y && \
     apt install libssl-dev -y && \
     apt install libreadline-dev -y && \
@@ -26,12 +27,19 @@ RUN apt install build-essential -y && \
     apt install liblzma-dev -y && \
     apt install libsqlite3-dev -y && \
     apt install uuid-dev -y
-# Install python
+# Install python 3 using asdf
 ENV PATH=/root/.asdf/bin:$PATH
 RUN asdf plugin add python && \
     asdf install python 3.9.1 && \
     asdf global python 3.9.1 && \
-    asdf reshim python 3.9.1
+    asdf reshim python 3.9.1 && \
+    pip install --upgrade pip && \
+    pip install wheel
+# Install kubespray.io and their dependencies
+RUN git clone https://github.com/kubernetes-sigs/kubespray.git && \
+    cd kubespray && \
+    pip3 install -r requirements.txt && \
+    cd
 # kubectl download, install, and clean
 RUN curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl" && \
     curl -LO "https://dl.k8s.io/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl.sha256" && \
