@@ -41,7 +41,7 @@ RUN pip install --upgrade pip && \
 RUN git clone https://github.com/kubernetes-sigs/kubespray.git && \
     cd kubespray && \
     pip3 install -r requirements.txt && \
-    cd
+    cd .. && rm -rf kubespray
 # kubectl download, install, and clean
 RUN curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl" && \
     curl -LO "https://dl.k8s.io/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl.sha256" && \
